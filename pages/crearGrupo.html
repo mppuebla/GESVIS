@@ -1,0 +1,114 @@
+  <script>
+   $(document).ready(function(){
+    $('#dataTables-example').DataTable({
+        "lengthMenu": [[5], [5]],
+         "language": {
+            "search":   "Buscar:",
+            "info":     "Mostrando _START_ a _END_ de _TOTAL_ visitante(s)",
+            "lengthMenu":     "Mostrando _MENU_ por página",
+            "paginate": {
+                    "first":      "Primero",
+                    "last":       "Último",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                },
+             "decimal":        "",
+             "emptyTable":     "No hay Datos",
+             "infoEmpty":      "Mostrando 0 a 0 de 0 encontradas",
+             "infoFiltered":   "(filtered from _MAX_ total entries)",                            
+             "loadingRecords": "Cargando...",
+             "processing":     "Procesando...",            
+             "zeroRecords":    "No existen registros para esa búsqueda"
+           }
+       } );
+   });
+   </script>
+   <body ng-controller="crearGrupoAdd">
+   <div class="row">
+    <div class="col-md-12" ng-show="visitantes.length > 0" id="divVisitantes">
+    
+       <div class= "navbar-header">
+    
+           
+    <!-- <a class="btn btn-lg btn-success" href="#/administrarVisitante/0"><i class="glyphicon glyphicon-plus"></i>&nbsp;Buscar visitante</a>-->
+    </div>
+    </nav>
+     <form  >
+             <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Visitantes
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Rut Visitante</th>
+                                        <th>Email</th>
+                                        <th>Acción</th>
+                                      
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <tr ng-repeat="data in visitantes">
+                                        <td>{{data.rutVisitante}}</td>
+                                        <td>{{data.email}}</td>
+                                        <td><a href="#/crearGrupo/{{data.idVisitante}}" onclick="form1.submit();" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Añadir a Grupo</a></td>                                    
+                                    </tr>
+                                                     
+                                  </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                    <button ng-controller="crearGrupoAdd cga"  ng-click="cga.addRow();" 
+                   
+                    class="btn btn-primary">submit</button>
+
+ </form>
+                  <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Grupo
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                             <th>Rut Visitante</th>
+                                             <th>Email</th>
+                                             <th>Acción</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in visGrupo">
+                                        <td>{{data.rutVisitante}}</td>
+                                        <td>{{data.email}}</td>
+                                        <td><a href="#/crearGrupo/{{data.idVisitante}}" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Quitar del Grupo</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-primary btn-lg" type="button">Crear Grupo</button>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+       
+    </div>
+    <div class="col-md-12" ng-show="visitantes.length == 0">
+        <div class="col-md-12">
+            <h4>No existen grupo creados</h4>
+        </div>
+    </div>
+</div>
+</body>

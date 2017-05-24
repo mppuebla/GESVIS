@@ -1,0 +1,133 @@
+﻿<style type="text/css">
+  .form-horizontal input.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+  }
+
+  .form-horizontal input.ng-valid.ng-dirty {
+    border-color: #78FA89;
+  }
+</style>
+<div class="view">
+    <div class="container">
+        <div class="row">
+        <nav class= "navbar navbar-default" role= "navigation" >
+        <div class= "navbar-header" >
+        <a class= "navbar-brand" href= "#/visitantes"><i class="glyphicon glyphicon-th-large"></i> Lista de Visitantes </a>
+        <a ng-show="visitante._id" class= "navbar-brand" href= "#/administrarVisitante/0"><i class="glyphicon glyphicon-plus"></i> Crear Visitante </a>
+        <a ng-show="visitante._id" class= "navbar-brand pull-right"><i class="glyphicon glyphicon-edit"></i> Actualmente se está actualizando al visitante : {{visitante._id}}</a>
+        </div>
+        </nav>
+        <header>
+            <h3>{{title}} </h3>
+        </header>
+        <div class="col-md-12">
+
+<form role="form" name="myForm" class="form-horizontal">
+    <div class="row">
+     <div class= "form-group">
+         <label class= "col-md-2"> Es extranjero </label>
+         <label for="radioSi">Si</label>
+         <input id="radioSi" type="radio" name="radioSi" ng-model="visitante.extranjero" value="si">
+         <label for="radioNo">No</label>
+         <input id="radioNo" type="radio" name="radioNo" ng-model="visitante.extranjero" value="no">
+
+     </div>
+    <div class= "form-group" ng-show="visitante.extranjero == 'no'">
+        <label class= "col-md-2"> Rut visitante </label>
+        <div class="col-md-4">
+        <input name="rutVisitante" ng-model="visitante.rutVisitante" type= "text" class= "form-control" placeholder="Ingrese Rut" required/>
+        </div>
+    </div>
+    <div class= "form-group" ng-show="visitante.extranjero == 'si'">
+        <label class= "col-md-2"> Pasaporte </label>
+        <div class="col-md-4">
+        <input name="pasaporte" ng-model="visitante.rutVisitante" type= "text" class= "form-control" placeholder="Ingrese Pasaporte" required/>
+        </div>
+    </div>
+    <div class= "form-group" ng-class="{error: myForm.nombre.$invalid}">
+        <label class= "col-md-2"> Nombre </label>
+        <div class="col-md-4">
+        <input name="nombre" ng-model="visitante.nombre" type= "text" class= "form-control" placeholder="Ingrese Nombre" required/>
+        <span ng-show="myForm.nombre.$dirty && myForm.nombre.$invalid" class="help-inline">Nombre Requerido</span>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Apellido Paterno </label>
+        <div class="col-md-4">
+        <input ng-model="visitante.apellidoPaterno" type= "text" class= "form-control" placeholder= "Ingrese Apellido Paterno"/>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Apellido Materno </label>
+        <div class="col-md-4">
+        <input ng-model="visitante.apellidoMaterno" type= "text" class= "form-control" placeholder= "Ingrese Apellido Materno"/>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Dirección </label>
+        <div class="col-md-4">
+        <input ng-model="visitante.direccion" type= "text" class= "form-control" placeholder= "Ingrese Apellido Materno"/>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Ciudad </label>
+        <div class="col-md-4">
+        <input ng-model="visitante.ciudad" type= "text" class= "form-control" placeholder= "Ingrese Apellido Materno"/>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Fecha Nacimiento </label>
+        <div class="col-md-4">
+        <input ng-model="visitante.fechaNacimiento" type= "text" class= "form-control" placeholder= "Ingrese Fecha de Nacimiento"/>
+        <md-datepicker ng-model="visitante.fechaNacimiento" md-placeholder="Enter date"></md-datepicker>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Peso </label>
+        <div class="col-md-4">
+        <input ng-model="visitante.peso" type= "text" class= "form-control" placeholder= "Ingrese Peso"/>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Estatura </label>
+        <div class="col-md-4">
+        <input ng-model="visitante.estatura" type= "text" class= "form-control" placeholder= "Ingrese Estatura"/>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Experiencia </label>
+        <div class="col-md-4">
+        <input ng-model="visitante.experiencia" type= "text" class= "form-control" placeholder= "Ingrese Experiencia"/>
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Enfermedades </label>
+        <div class="col-md-4">
+            <textarea class="form-control" g-model="visitante.enfermedades" rows="3"></textarea>       
+        </div>
+    </div>
+    <div class= "form-group">
+        <label class= "col-md-2"> Email </label>
+        <div class="col-md-4">
+        <input name="email" ng-model="visitante.email" type= "email" class= "form-control" placeholder="Ingrese Email" required/>
+        <span ng-show="myForm.email.$dirty && myForm.email.$invalid && !myForm.email.$error.email" class="help-inline">Email requerido</span>
+        <span ng-show="myForm.email.$error.email" class="help-inline">El Email ingresado es incorrecto</span>
+        </div>
+    </div>
+
+    <div class= "form-group">
+        <label class= "col-md-2"></label>
+        <div class="col-md-4">
+        <a href="#/" class="btn">Cancelar</a>
+            <button ng-click="guardarVisitante(visitante);" 
+                    ng-disabled="isClean() || myForm.$invalid"
+                    class="btn btn-primary">{{buttonText}}</button>
+            <button ng-click="deleteCustomer(customer)"
+                    ng-show="customer._id" class="btn btn-warning">Eliminar Visitante</button>
+        </div>
+    </div>
+</div> 
+</form>
+        </div></div>
+    </div>
+</div>
