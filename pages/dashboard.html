@@ -1,5 +1,5 @@
  <div class="row">
-    <div class="col-md-12" ng-show="visitantes.length > 0">
+    <div class="col-md-12" ng-show="grupos.length > 0">
     
     <nav class= "navbar navbar-default" role= "navigation" >
     <div class= "navbar-header" >
@@ -14,36 +14,19 @@
         <th>Hora Ascenso&nbsp;</th>
         <th>Acción&nbsp;</th>
         </thead>
-        <tbody>
-            <tr ng-repeat="data in visitantes">
-                <td>1</td>
+        <tbody ng-repeat="data in grupos">
+            <tr>
+                <td>{{data.idGrupo}}</td>
+                <td>{{data.rutVisitante}}</td>
                 <td>{{data.email}}</td>
-                <td>{{data.direccion}}</td>
                 <td>{{data.ciudad}}</td>
                 <td><a href="#/administrarVisitante/{{data.idVisitante}}" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Revisar Grupo</a></td>
             </tr>
         </tbody>
         </table>
-        <table class="table table-striped table-bordered">
-        <thead>
-        <th>Id Grupo&nbsp;</th>
-        <th>Rut&nbsp;</th>
-        <th>Nombre&nbsp;</th>
-        <th>Hora Ascenso&nbsp;</th>
-        <th>Acción&nbsp;</th>
-        </thead>
-        <tbody>
-            <tr ng-repeat="data in visitantes">
-                <td>2</td>
-                <td>{{data.email}}</td>
-                <td>{{data.direccion}}</td>
-                <td>{{data.ciudad}}</td>
-                <td><a href="#/administrarVisitante/{{data.idVisitante}}" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Revisar Grupo</a></td>
-            </tr>
-        </tbody>
-        </table>
+       
     </div>
-    <div class="col-md-12" ng-show="visitantes.length == 0">
+    <div class="col-md-12" ng-show="grupos.length == 0">
         <div class="col-md-12">
             <h4>No customers found</h4>
         </div>

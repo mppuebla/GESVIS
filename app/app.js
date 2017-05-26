@@ -10,11 +10,22 @@ app.factory("services", ['$http', function($http) {
         return $http.get(serviceBase + 'visitante?id=' + visitanteID);
     }
 
+    obj.getGrupos = function(){
+        return $http.get(serviceBase + 'grupos');
+    }
+
     obj.insertarVisitante = function (visitante) {
-    return $http.post(serviceBase + 'insertarVisitante', visitante).then(function (results) {
-        return results;
-    });
-  };
+         return $http.post(serviceBase + 'insertarVisitante', visitante).then(function (results) {
+          return results;
+      });
+    };
+
+    obj.crearGrupo = function (grupo) {
+      alert("entre" +   JSON.stringify(grupo));
+      return $http.post(serviceBase + 'crearGrupo', grupo).then(function (results) {
+          return results;
+      });
+    };
 
   
 	obj.updateCustomer = function (id,customer) {
@@ -33,8 +44,8 @@ app.factory("services", ['$http', function($http) {
 }]);
 
 app.controller('dashCtrl', function ($scope, services) {
-    services.getVisitantes().then(function(data){//TODO cambiar por grupos
-        $scope.visitantes = data.data;
+    services.getGrupos().then(function(data){
+        $scope.grupos = data.data;
     });
 });
 
@@ -50,28 +61,30 @@ app.controller('vistCtrl', function ($scope, services) {
     });
 });
 
-app.controller('crearGrupoAdd', function ($scope) {
-   $scope.visGrupo = [
-                    { 'rutVisitante':'123123',
-                       'email': 'Bangalore'},
-                     
-                    ];
-            
-            $scope.addRow = function(){
-                $scope.visGrupo.push({ 
-                  "rutVisitante" : "123123123"
-                
-              });
-           
-          };
-                 
+app.controller('crearGrupoAdd', function($scope,$location,services) {
+     $scope.visGrupo = [];
+          
+      $scope.addRow = function(id,correo){    
+          $scope.visGrupo.push({ 
+              "rutVisitante" :  id,
+              "email" : correo
+          });
+      
+      };
 
-   
+      $scope.removeItem = function(id){
+          $scope.visGrupo.splice(id, 1);
+      }; 
 
-     //location.href = '/ParqueCordillera/#/crearGrupo/';
-      //$location.path('/ParqueCordillera/#/crearGrupo/');
-
-  
+      $scope.crearGrupo = function(grupo) {
+        $location.path('/');
+        for(var i in grupo) {
+            services.crearGrupo(grupo[i]);
+         } 
+      
+       
+      };     
+ 
   });
 
 
@@ -99,7 +112,7 @@ app.controller('administrarVisitante', function ($scope, $rootScope, $location, 
       $scope.guardarVisitante = function(visitante) {
         $location.path('/');
         if (visitanteID <= 0) {
-            services.insertarVisitante(visitante);
+              services.insertarVisitante(visitante);
         }
         else {
            // services.actualizarVisitante(visitanteID, visitante);
@@ -142,17 +155,6 @@ app.config(['$routeProvider',
           visitante : function(services, $route){
             var visitanteID = $route.current.params.visitanteID;
             return services.getVisitante(visitanteID);
-          }
-        }
-      })
-      .when('/crearGrupo/:visitanteID', {
-        title: 'Crear Grupo',
-        templateUrl: 'pages/crearGrupo.html',
-        controller: 'crearGrupoAdd',
-         resolve: {
-          visitante : function(services, $route){
-            var visitanteID = $route.current.params.visitanteID;  
-               return services.getVisitante(visitanteID);
           }
         }
       })

@@ -59,38 +59,7 @@
 			$this->response($this->json($error), 400);
 		}
 		
-		private function customers(){	
-			if($this->get_request_method() != "GET"){
-				$this->response('',406);
-			}
-			$query="SELECT distinct c.customerNumber, c.customerName, c.email, c.address, c.city, c.state, c.postalCode, c.country FROM angularcode_customers c order by c.customerNumber desc";
-			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
-
-			if($r->num_rows > 0){
-				$result = array();
-				while($row = $r->fetch_assoc()){
-					$result[] = $row;
-				}
-				$this->response($this->json($result), 200); // send user details
-			}
-			$this->response('',204);	// If no records "No Content" status
-		}
-		private function customer(){	
-			if($this->get_request_method() != "GET"){
-				$this->response('',406);
-			}
-			$id = (int)$this->_request['id'];
-			if($id > 0){	
-				$query="SELECT distinct c.customerNumber, c.customerName, c.email, c.address, c.city, c.state, c.postalCode, c.country FROM angularcode_customers c where c.customerNumber=$id";
-				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
-				if($r->num_rows > 0) {
-					$result = $r->fetch_assoc();	
-					$this->response($this->json($result), 200); // send user details
-				}
-			}
-			$this->response('',204);	// If no records "No Content" status
-		}
-
+		
 		private function visitantes(){	
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
@@ -107,6 +76,24 @@
 			}
 			$this->response('',204);	// If no records "No Content" status
 		}
+
+		private function grupos(){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+			$query="SELECT distinct g.idGrupo,g.rutVisitante, g.email FROM grupo g order by g.idGrupo asc";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+			if($r->num_rows > 0){
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
 		private function visitante(){	
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
@@ -123,35 +110,7 @@
 			$this->response('',204);	// If no records "No Content" status
 		}
 		
-		private function insertCustomer(){
-			if($this->get_request_method() != "POST"){
-				$this->response('',406);
-			}
-
-			$customer = json_decode(file_get_contents("php://input"),true);
-			$column_names = array('customerName', 'email', 'city', 'address', 'country');
-			$keys = array_keys($customer);
-			$columns = '';
-			$values = '';
-			foreach($column_names as $desired_key){ // Check the customer received. If blank insert blank into the array.
-			   if(!in_array($desired_key, $keys)) {
-			   		$$desired_key = '';
-				}else{
-					$$desired_key = $customer[$desired_key];
-				}
-				$columns = $columns.$desired_key.',';
-				$values = $values."'".$$desired_key."',";
-			}
-			$query = "INSERT INTO angularcode_customers(".trim($columns,',').") VALUES(".trim($values,',').")";
-			if(!empty($customer)){
-				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
-				$success = array('status' => "Success", "msg" => "Customer Created Successfully.", "data" => $customer);
-				$this->response($this->json($success),200);
-			}else
-				$this->response('',204);	//"No Content" status
-		}
-
-        private function insertarVisitante(){
+		private function insertarVisitante(){
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
@@ -178,6 +137,39 @@
 			}else
 				$this->response('',204);	//"No Content" status
 		}
+        
+        private function crearGrupo(){
+        	
+        	if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+            
+            
+			$grupo = json_decode(file_get_contents("php://input"),true);
+			$column_names = array('rutVisitante', 'email');
+	
+			$keys = array_keys($grupo);
+			$columns = '';
+			$values = '';
+			foreach($column_names as $desired_key){ 
+			   if(!in_array($desired_key, $keys)) {
+			   		$$desired_key = '';
+				}else{
+					$$desired_key = $grupo[$desired_key];
+				}
+				$columns = $columns.$desired_key.',';
+				$values = $values."'".$$desired_key."',";
+			}
+			$query = "INSERT INTO grupo(".trim($columns,',').") VALUES(".trim($values,',').")";
+			if(!empty($grupo)){
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				$success = array('status' => "Success", "msg" => "Grupo Ingresado Correctamente", "data" => $grupo);
+				$this->response($this->json($success),200);
+			}else
+				$this->response('',204);	//"No Content" status
+           
+           
+        }
 
 
 		private function updateCustomer(){
